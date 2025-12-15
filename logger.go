@@ -27,12 +27,12 @@ func Info(format string, v ...any) {
 
 func Error(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
-	fmt.Fprintf(os.Stderr, "%s %sERR%s   %s%s%s\n", getTimestamp(), Red, Reset, Red, msg, Reset)
+	fmt.Fprintf(os.Stderr, "%s %sERR%s   %s\n", getTimestamp(), Red, Reset, msg)
 }
 
 func Warn(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
-	fmt.Printf("%s %sWARN%s  %s%s%s\n", getTimestamp(), Yellow, Reset, Yellow, msg, Reset)
+	fmt.Printf("%s %sWARN%s  %s\n", getTimestamp(), Yellow, Reset, msg)
 }
 
 func Debug(format string, v ...any) {
