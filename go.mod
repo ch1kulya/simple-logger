@@ -1,3 +1,3 @@
-module github.com/ch1kulya/simple-logger
+module github.com/ch1kulya/logger/v1
 
 go 1.25.3
