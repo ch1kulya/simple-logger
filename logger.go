@@ -8,7 +8,6 @@ import (
 
 const (
 	Reset = "\033[0m"
-	Bold  = "\033[1m"
 	Dim   = "\033[2m"
 
 	Red     = "\033[91m"
@@ -27,20 +26,20 @@ func getTimestamp() string {
 
 func Info(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
-	fmt.Printf("%s %s%-5s%s %s\n", getTimestamp(), Green, "INFO", Reset, msg)
+	fmt.Printf("%s %s%-7s%s %s\n", getTimestamp(), Magenta, "INFO", Reset, msg)
 }
 
 func Error(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
-	fmt.Fprintf(os.Stderr, "%s %s%-5s%s %s\n", getTimestamp(), Red, "ERR", Reset, msg)
+	fmt.Fprintf(os.Stderr, "%s %s%-7s%s %s\n", getTimestamp(), Red, "ERR", Reset, msg)
 }
 
 func Warn(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
-	fmt.Printf("%s %s%-5s%s %s\n", getTimestamp(), Yellow, "WARN", Reset, msg)
+	fmt.Printf("%s %s%-7s%s %s\n", getTimestamp(), Yellow, "WARN", Reset, msg)
 }
 
 func Debug(format string, v ...any) {
 	msg := fmt.Sprintf(format, v...)
-	fmt.Printf("%s %s%-5s%s %s\n", getTimestamp(), Blue, "DEBUG", Reset, msg)
+	fmt.Printf("%s %s%-7s%s %s\n", getTimestamp(), Blue, "DEBUG", Reset, msg)
 }

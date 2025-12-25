@@ -89,7 +89,7 @@ func Middleware(next http.Handler) http.Handler {
 		statusColor := getStatusColor(wrapper.status)
 		duration := time.Since(start)
 
-		fmt.Printf("%s %s%-5s%s %-6s %s%-3d%s %s %s%s%s\n",
+		fmt.Printf("%s %s%-7s%s %-7s %s%-3d%s %s %s%s%s\n",
 			getTimestamp(),
 			methodColor, r.Method, Reset,
 			formatSize(wrapper.size),
