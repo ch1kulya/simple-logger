@@ -141,14 +141,22 @@ func renderMetadata(fields []field) string {
 		}
 	}
 
-	indent := strings.Repeat(" ", lipgloss.Width(getTimestamp())+1)
 	var lines []string
+	keyStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("8"))
+
 	for _, f := range fields {
-		k := dimStyle.Width(maxKeyLen + 1).Render(f.key + ":")
+		k := keyStyle.Width(maxKeyLen + 1).Render(f.key + ":")
 		valStr := dimStyle.Render(fmt.Sprintf("%v", f.value))
-		lines = append(lines, indent+k+" "+valStr)
+		lines = append(lines, k+" "+valStr)
 	}
-	return strings.Join(lines, "\n")
+	lines = append(lines, "")
+
+	return lipgloss.NewStyle().
+		BorderStyle(lipgloss.NormalBorder()).
+		BorderLeft(true).
+		BorderForeground(lipgloss.Color("8")).
+		PaddingLeft(1).
+		Render(strings.Join(lines, "\n"))
 }
 
 func logMessage(w io.Writer, lvl Level, badge lipgloss.Style, label, format string, fields []field, v ...any) {
