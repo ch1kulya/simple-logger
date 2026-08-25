@@ -196,12 +196,12 @@ func TestMiddlewareUserAgent(t *testing.T) {
 	out := buf.String()
 	t.Log("\n" + out)
 
-	if !strings.Contains(out, "ua:") || !strings.Contains(out, "TestAgent/1.0") {
+	if !strings.Contains(out, "ua=") || !strings.Contains(out, "TestAgent/1.0") {
 		t.Error("expected user-agent in output")
 	}
 
 	lines := strings.Split(strings.TrimSpace(out), "\n")
-	if len(lines) < 2 {
-		t.Errorf("expected at least 2 lines of output, got %d", len(lines))
+	if len(lines) < 1 {
+		t.Errorf("expected at least 1 line of output, got %d", len(lines))
 	}
 }

@@ -101,13 +101,13 @@ func TestWithMetadata(t *testing.T) {
 	out := buf.String()
 	t.Log("\n" + out)
 
-	if !strings.Contains(out, "user_id:") || !strings.Contains(out, "123") {
+	if !strings.Contains(out, "user_id=") || !strings.Contains(out, "123") {
 		t.Error("expected user_id in output")
 	}
-	if !strings.Contains(out, "role:") || !strings.Contains(out, "admin") {
+	if !strings.Contains(out, "role=") || !strings.Contains(out, "admin") {
 		t.Error("expected role in output")
 	}
-	if !strings.Contains(out, "error_code:") || !strings.Contains(out, "404") {
+	if !strings.Contains(out, "error_code=") || !strings.Contains(out, "404") {
 		t.Error("expected error_code in output")
 	}
 }
@@ -124,10 +124,10 @@ func TestWithChaining(t *testing.T) {
 	out := buf.String()
 	t.Log("\n" + out)
 
-	if !strings.Contains(out, "service:") || !strings.Contains(out, "auth") {
+	if !strings.Contains(out, "service=") || !strings.Contains(out, "auth") {
 		t.Error("expected service in output")
 	}
-	if !strings.Contains(out, "ip:") || !strings.Contains(out, "127.0.0.1") {
+	if !strings.Contains(out, "ip=") || !strings.Contains(out, "127.0.0.1") {
 		t.Error("expected ip in output")
 	}
 }
@@ -149,7 +149,7 @@ func TestWithFatal(t *testing.T) {
 	if !strings.Contains(out, "FATAL") {
 		t.Error("expected FATAL in output")
 	}
-	if !strings.Contains(out, "fatal_reason:") || !strings.Contains(out, "db_down") {
+	if !strings.Contains(out, "fatal_reason=") || !strings.Contains(out, "db_down") {
 		t.Error("expected fatal_reason in output")
 	}
 	if exitCode != 1 {

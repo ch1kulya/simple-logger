@@ -117,7 +117,7 @@ func Middleware(next http.Handler) http.Handler {
 		}
 
 		if meta := renderMetadata(fields); meta != "" {
-			line += "\n" + meta
+			line += "    " + meta
 		}
 
 		fmt.Fprintln(output, line)

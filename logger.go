@@ -134,29 +134,13 @@ func renderMetadata(fields []field) string {
 	if len(fields) == 0 {
 		return ""
 	}
-	maxKeyLen := 0
+	var parts []string
 	for _, f := range fields {
-		if l := lipgloss.Width(f.key); l > maxKeyLen {
-			maxKeyLen = l
-		}
+		k := dimStyle.Render(f.key + "=")
+		v := fmt.Sprintf("%v", f.value)
+		parts = append(parts, k+v)
 	}
-
-	var lines []string
-	keyStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("8"))
-
-	for _, f := range fields {
-		k := keyStyle.Width(maxKeyLen + 1).Render(f.key + ":")
-		valStr := dimStyle.Render(fmt.Sprintf("%v", f.value))
-		lines = append(lines, k+" "+valStr)
-	}
-	lines = append(lines, "")
-
-	return lipgloss.NewStyle().
-		BorderStyle(lipgloss.NormalBorder()).
-		BorderLeft(true).
-		BorderForeground(lipgloss.Color("8")).
-		PaddingLeft(1).
-		Render(strings.Join(lines, "\n"))
+	return strings.Join(parts, "  ")
 }
 
 func logMessage(w io.Writer, lvl Level, badge lipgloss.Style, label, format string, fields []field, v ...any) {
@@ -166,7 +150,7 @@ func logMessage(w io.Writer, lvl Level, badge lipgloss.Style, label, format stri
 	msg := fmt.Sprintf(format, v...)
 	line := fmt.Sprintf("%s %s %s", getTimestamp(), badge.Width(7).Render(label), msg)
 	if meta := renderMetadata(fields); meta != "" {
-		line += "\n" + meta
+		line += "    " + meta
 	}
 	fmt.Fprintln(w, line)
 }
