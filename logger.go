@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"charm.land/lipgloss/v2"
-	"github.com/charmbracelet/colorprofile"
 )
 
 type Level int
@@ -183,12 +182,4 @@ func Debug(format string, v ...any) {
 func Fatal(format string, v ...any) {
 	logMessage(errOut, LevelFatal, fatalStyle, "FATAL", format, nil, v...)
 	exitFunc(1)
-}
-
-func SetForceColor(force bool) {
-	if force {
-		lipgloss.Writer.Profile = colorprofile.TrueColor
-	} else {
-		lipgloss.Writer.Profile = colorprofile.Ascii
-	}
 }
