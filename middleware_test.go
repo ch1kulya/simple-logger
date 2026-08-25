@@ -172,3 +172,36 @@ func TestMiddlewareLatency(t *testing.T) {
 		t.Error("expected millisecond durations in output")
 	}
 }
+
+func TestMiddlewareUserAgent(t *testing.T) {
+	var buf bytes.Buffer
+	SetOutput(&buf)
+	SetLevel(LevelDebug)
+	defer SetLevel(LevelDebug)
+
+	SetShowUserAgent(true)
+	defer SetShowUserAgent(false)
+
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	wrapped := Middleware(handler)
+	req := httptest.NewRequest(http.MethodGet, "/test-ua", nil)
+	req.Header.Set("User-Agent", "TestAgent/1.0")
+	rec := httptest.NewRecorder()
+
+	wrapped.ServeHTTP(rec, req)
+
+	out := buf.String()
+	t.Log("\n" + out)
+
+	if !strings.Contains(out, "ua:") || !strings.Contains(out, "TestAgent/1.0") {
+		t.Error("expected user-agent in output")
+	}
+
+	lines := strings.Split(strings.TrimSpace(out), "\n")
+	if len(lines) < 2 {
+		t.Errorf("expected at least 2 lines of output, got %d", len(lines))
+	}
+}

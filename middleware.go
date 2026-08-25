@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/charmbracelet/lipgloss"
+	"charm.land/lipgloss/v2"
 )
 
 type responseWriterWrapper struct {
@@ -102,7 +102,7 @@ func Middleware(next http.Handler) http.Handler {
 		statusStyle := getStatusStyle(wrapper.status)
 		duration := time.Since(start)
 
-		fmt.Fprintf(output, "%s %s %-7s %s %s %s\n",
+		line := fmt.Sprintf("%s %s %-7s %s %s %s",
 			getTimestamp(),
 			methodStyle.Width(7).Render(r.Method),
 			formatSize(wrapper.size),
@@ -110,5 +110,16 @@ func Middleware(next http.Handler) http.Handler {
 			r.URL.Path,
 			dimStyle.Render(formatDuration(duration)),
 		)
+
+		var fields []field
+		if getShowUserAgent() && r.UserAgent() != "" {
+			fields = append(fields, field{key: "ua", value: r.UserAgent()})
+		}
+
+		if meta := renderMetadata(fields); meta != "" {
+			line += "\n" + meta
+		}
+
+		fmt.Fprintln(output, line)
 	})
 }
